@@ -64,7 +64,12 @@ public final class NoCollisionVelocity {
             return;
         }
         byte[] data = event.getData();
-        if (data.length < 1 || tabHook == null) {
+        if (data.length < 1) {
+            return;
+        }
+        if (tabHook == null) {
+            logger.warn("Got collision state for {} from {}, but TAB is not usable on the proxy.",
+                    connection.getPlayer().getUsername(), connection.getServerInfo().getName());
             return;
         }
         tabHook.apply(connection.getPlayer().getUniqueId(), data[0] == 1);

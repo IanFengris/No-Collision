@@ -21,6 +21,8 @@ final class TabProxyHook {
     private final Logger logger;
     /** Latest wanted state per player, so delayed retries never apply an outdated value. */
     private final Map<UUID, Boolean> wanted = new ConcurrentHashMap<>();
+    /** Last state handed to TAB, only used for logging changes. */
+    private final Map<UUID, Boolean> applied = new ConcurrentHashMap<>();
     private volatile boolean warnedNoTeams;
 
     TabProxyHook(Object plugin, ProxyServer proxy, Logger logger) {
@@ -42,6 +44,7 @@ final class TabProxyHook {
         }
         if (proxy.getPlayer(uuid).isEmpty()) {
             wanted.remove(uuid);
+            applied.remove(uuid);
             return;
         }
         NameTagManager nameTags = TabAPI.getInstance().getNameTagManager();
@@ -58,10 +61,15 @@ final class TabProxyHook {
                 proxy.getScheduler().buildTask(plugin, () -> tryApply(uuid, attempt + 1))
                         .delay(250, TimeUnit.MILLISECONDS)
                         .schedule();
+            } else {
+                logger.warn("TAB did not load player {} within 5 seconds - collision state not applied.", uuid);
             }
             return;
         }
         // false = no collision, null = back to TAB's configured default.
         nameTags.setCollisionRule(tabPlayer, disabled ? Boolean.FALSE : null);
+        if (!disabled.equals(applied.put(uuid, disabled))) {
+            logger.info("Collision for {} is now {} (via TAB).", tabPlayer.getName(), disabled ? "OFF" : "ON");
+        }
     }
 }

@@ -36,6 +36,7 @@ public final class CollisionManager {
     private final Map<UUID, Boolean> lastProxyState = new HashMap<>();
     private final Map<UUID, Boolean> lastTabState = new HashMap<>();
     private final Set<UUID> warnedForeignTeam = new HashSet<>();
+    private final Set<UUID> warnedNoChannel = new HashSet<>();
     private boolean tabFallback;
 
     public CollisionManager(NoCollisionPlugin plugin, TabBackendHook tabHook) {
@@ -161,7 +162,11 @@ public final class CollisionManager {
             return;
         }
         if (!player.getListeningPluginChannels().contains(NoCollisionPlugin.CHANNEL)) {
-            debug("Proxy channel not registered for " + player.getName() + " (yet) - is NoCollision on the proxy?");
+            if (warnedNoChannel.add(uuid)) {
+                plugin.getLogger().warning("Cannot send collision state of " + player.getName() + " to the proxy: channel "
+                        + NoCollisionPlugin.CHANNEL + " is not registered (yet). Is NoCollision installed on the proxy? "
+                        + "Registered channels: " + player.getListeningPluginChannels());
+            }
             return;
         }
         player.sendPluginMessage(plugin, NoCollisionPlugin.CHANNEL, new byte[]{(byte) (disabled ? 1 : 0)});
@@ -174,6 +179,7 @@ public final class CollisionManager {
         lastProxyState.remove(uuid);
         lastTabState.remove(uuid);
         warnedForeignTeam.remove(uuid);
+        warnedNoChannel.remove(uuid);
         removeFromOurTeams(player.getName());
     }
 

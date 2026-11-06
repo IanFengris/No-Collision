@@ -1,0 +1,19 @@
+# ------------------------------------------------------------
+#  NoCollision - config.yml
+# ------------------------------------------------------------
+
+# Worlds in which players can NOT push each other (world folder names, case-insensitive).
+# In all other worlds collision stays vanilla.
+worlds:
+  - world
+
+# TAB on the Velocity proxy: send the collision state to the proxy so TAB applies it.
+# Needs this same jar in the proxy's plugins folder too. Harmless if the proxy does not have it.
+proxy-tab-support: true
+
+# Re-check every online player every X seconds (0 = off).
+# Catches other plugins that swap the player's scoreboard.
+resync-interval-seconds: 10
+
+# Prints what happens to the console.
+debug: false

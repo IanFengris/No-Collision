@@ -1,0 +1,1 @@
+{"id":"nocollision","name":"NoCollision","version":"1.0.0","description":"Bridges NoCollision backend states to TAB on the proxy.","authors":["Vincent"],"dependencies":[{"id":"tab","optional":true}],"main":"de.vincent.nocollision.velocity.NoCollisionVelocity"}
