@@ -1,0 +1,37 @@
+# Maven
+target/
+dependency-reduced-pom.xml
+
+# Local build tools
+.tools/
+
+# IDE metadata
+.idea/
+.vscode/
+*.iml
+*.classpath
+*.project
+*.settings/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# JVM crash dumps
+hs_err_pid*
+replay_pid*
+
+# Gradle
+build/
+.gradle/

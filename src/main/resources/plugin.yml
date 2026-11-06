@@ -1,0 +1,16 @@
+name: NoCollision
+version: '${version}'
+main: de.vincent.nocollision.NoCollisionPlugin
+api-version: '1.21.11'
+description: Players cannot push each other in configured worlds.
+softdepend: [TAB]
+commands:
+  nocollision:
+    description: NoCollision admin command
+    usage: /nocollision <reload|status>
+    aliases: [nocoll]
+    permission: nocollision.admin
+permissions:
+  nocollision.admin:
+    description: Reload the config and show the status
+    default: op
